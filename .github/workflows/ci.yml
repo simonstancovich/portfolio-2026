@@ -28,7 +28,7 @@ jobs:
 
       - name: Upgrade npm to match local version
         run: |
-          npm install -g npm@latest
+          npm install -g npm@11.4.2
           npm --version
 
       - name: Cache npm dependencies
@@ -69,7 +69,7 @@ jobs:
 
       - name: Upgrade npm to match local version
         run: |
-          npm install -g npm@latest
+          npm install -g npm@11.4.2
           npm --version
 
       - name: Cache npm dependencies
