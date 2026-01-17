@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD Pipeline
 
 on:
   push:
@@ -7,8 +7,10 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  quality-checks:
+    name: Code Quality & Security
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout code
@@ -25,9 +27,41 @@ jobs:
 
       - name: Run linter
         run: npm run lint
+        continue-on-error: false
 
       - name: Type check
         run: npx tsc --noEmit
 
+      - name: Security audit
+        run: npm audit --audit-level=moderate || true
+        continue-on-error: true
+
+  build:
+    name: Build & Verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: quality-checks
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Build project
         run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Build summary
+        if: success()
+        run: |
+          echo "✅ Build completed successfully"
+          echo "📦 Ready for deployment"
