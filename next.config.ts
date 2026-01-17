@@ -5,7 +5,6 @@ const withVanillaExtract = createVanillaExtractPlugin();
 
 const nextConfig: NextConfig = {
   /* config options here */
-  turbopack: {},
 };
 
 export default withVanillaExtract(nextConfig);
