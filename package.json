@@ -9,7 +9,6 @@
     "lint": "eslint"
   },
   "overrides": {
-    "ajv": "^8.17.1",
     "picomatch": "^4.0.3"
   },
   "dependencies": {
