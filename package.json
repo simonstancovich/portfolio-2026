@@ -9,18 +9,20 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@vanilla-extract/css": "^1.18.0",
+    "@vanilla-extract/recipes": "^0.5.7",
+    "@vanilla-extract/sprinkles": "^1.6.5",
     "next": "16.1.3",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vanilla-extract/next-plugin": "^2.4.17",
     "eslint": "^9",
     "eslint-config-next": "16.1.3",
-    "tailwindcss": "^4",
     "typescript": "^5"
   }
 }
