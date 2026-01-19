@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { Container } from "@/components/site/container";
 import { cn } from "@/lib/utils";
+import { CommandK } from "./command-k";
+import { Mail } from "lucide-react";
+
 
 const navItems = [
   { href: "/work", label: "Work" },
@@ -37,12 +40,26 @@ export function SiteNav() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
+          <CommandK />
           <a
             href="mailto:youremail@domain.com"
-            className="rounded-md bg-white/10 px-3 py-2 text-sm font-medium text-white hover:bg-white/15"
+            aria-label="Email Simon"
+            className="
+    inline-flex items-center justify-center
+    rounded-xl ring-1 ring-white/10 transition
+    bg-white/10 text-white hover:bg-white/15
+    h-9 w-9 md:h-auto md:w-auto
+    md:px-3 md:py-2
+  "
           >
-            Email
+            {/* icon on mobile */}
+            <Mail className="h-4 w-4 md:hidden" />
+
+            {/* text on desktop */}
+            <span className="hidden md:inline text-sm font-medium">
+              Email
+            </span>
           </a>
           <a
             href="https://github.com/"

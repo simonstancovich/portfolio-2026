@@ -17,8 +17,9 @@ export const metadata: Metadata = {
   title: "Simon Stancovich — Full-stack Developer",
   description:
     "Product-grade web apps: scalable systems, crisp UX, modern UI. React, TypeScript, Node.",
-  metadataBase: new URL("http://localhost:3000"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
 };
+
 
 
 
