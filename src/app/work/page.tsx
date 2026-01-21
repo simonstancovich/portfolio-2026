@@ -1,20 +1,16 @@
-import { Container } from "@/components/site/container";
+import { client } from "@/sanity/lib/client";
+import { projectsQuery } from "@/sanity/lib/queries";
+import type { Project } from "@/sanity/lib/types";
 import { WorkGrid } from "@/components/site/work-grid";
 
-export default function WorkPage() {
-  return (
-    <main className="py-12 md:py-16">
-      <Container>
-        <h1 className="text-3xl font-semibold tracking-tight text-white md:text-5xl">
-          Work
-        </h1>
-        <p className="mt-3 max-w-2xl text-white/65">
-          Case studies that show UX taste and engineering execution: clear
-          decisions, stable architecture, and real tradeoffs.
-        </p>
+export const revalidate = 60;
 
-        <WorkGrid />
-      </Container>
-    </main>
+export default async function WorkPage() {
+  const projects = await client.fetch<Project[]>(projectsQuery) ?? [];
+
+  return (
+    <div className="space-y-10">
+      <WorkGrid projects={projects} />
+    </div>
   );
 }

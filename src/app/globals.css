@@ -8,6 +8,14 @@
     Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+
 :root {
   --bg: 8 8 10;
   --surface: 14 14 18;
@@ -62,7 +70,7 @@ body {
 }
 
 .section-anchor {
-  scroll-margin-top: 90px;
+  scroll-margin-top: 96px;
 }
 
 ::selection {

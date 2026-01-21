@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { Container } from "@/components/site/container";
 
 export function Hero() {
@@ -43,18 +44,18 @@ export function Hero() {
             </p>
 
             <div className="mt-9 flex flex-wrap gap-3">
-              <a
+              <Link
                 href="/work"
                 className="rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-white/90"
               >
                 View selected work
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/contact"
                 className="rounded-2xl bg-white/10 px-5 py-3 text-sm font-semibold text-white hover:bg-white/15 ring-1 ring-white/10"
               >
                 Contact
-              </a>
+              </Link>
             </div>
 
             <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">

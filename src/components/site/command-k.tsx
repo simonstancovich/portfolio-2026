@@ -3,8 +3,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { projects } from "@/lib/projects";
 import { cn } from "@/lib/utils";
+import { projectsQuery } from "@/sanity/lib/queries";
+import { clientWithCdn } from "@/sanity/lib/client";
+import type { Project } from "@/sanity/lib/types";
+
 
 type Item = {
     slug: string;
@@ -21,16 +24,22 @@ export function CommandK() {
     const [open, setOpen] = useState(false);
     const [q, setQ] = useState("");
     const [activeIndex, setActiveIndex] = useState(0);
+    const [projects, setProjects] = useState<Project[]>([]);
+
+    // Fetch projects on mount
+    useEffect(() => {
+        clientWithCdn.fetch<Project[]>(projectsQuery).then(setProjects);
+    }, []);
 
     const items: Item[] = useMemo(
         () =>
             projects.map((p) => ({
                 slug: p.slug,
                 title: p.title,
-                tagline: p.tagline,
-                tags: p.tags,
+                tagline: p.tagline ?? "",
+                tags: p.tags ?? [],
             })),
-        []
+        [projects]
     );
 
     const filtered = useMemo(() => {

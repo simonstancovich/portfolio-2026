@@ -35,7 +35,7 @@ export function FeaturedWork() {
               title={p.title}
               tagline={p.tagline}
               tags={p.tags}
-              highlights={p.highlights}
+              highlights={p.caseStudy.highlights}
               span={idx === 0 ? "md:col-span-7" : "md:col-span-5"}
             />
           ))}

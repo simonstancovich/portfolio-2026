@@ -2,22 +2,22 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { projects, type Project } from "@/lib/projects";
+import type { Project } from "@/sanity/lib/types";
 
 const filters = ["All", "Full-stack", "Frontend", "Mobile", "AI/Product"] as const;
 type Filter = (typeof filters)[number];
 
 function matches(p: Project, f: Filter) {
   if (f === "All") return true;
-  return p.tags.includes(f);
+  return p.tags?.includes(f) ?? false;
 }
 
-export function WorkGrid() {
+export function WorkGrid({ projects }: { projects: Project[] }) {
   const [filter, setFilter] = useState<Filter>("All");
 
   const items = useMemo(
-    () => projects.filter((p) => matches(p, filter)),
-    [filter]
+    () => (projects ?? []).filter((p) => matches(p, filter)),
+    [projects, filter]
   );
 
   return (
@@ -85,7 +85,7 @@ function NeoCard({
               {p.title}
             </div>
             <p className="mt-2 text-sm leading-relaxed text-white/70">
-              {p.tagline}
+              {p.tagline ?? ""}
             </p>
           </div>
 
@@ -102,7 +102,7 @@ function NeoCard({
         </div>
 
         <ul className="mt-5 space-y-2 text-sm text-white/70">
-        {p.caseStudy.highlights.slice(0, 3).map((h) => (
+          {(p.caseStudy?.highlights ?? []).slice(0, 3).map((h) => (
             <li key={h} className="flex gap-2">
               <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-white/40" />
               <span>{h}</span>
@@ -111,7 +111,7 @@ function NeoCard({
         </ul>
 
         <div className="mt-6 flex flex-wrap gap-2">
-          {p.tags.slice(0, 5).map((t) => (
+          {(p.tags ?? []).slice(0, 5).map((t) => (
             <span
               key={t}
               className="rounded-full bg-white/7 px-3 py-1 text-xs text-white/70 ring-1 ring-white/10"

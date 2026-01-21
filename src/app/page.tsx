@@ -2,8 +2,15 @@ import { Container } from "@/components/site/container";
 import { Hero } from "@/components/site/hero";
 import { ProofStrip } from "@/components/site/proof-strip";
 import { WorkGrid } from "@/components/site/work-grid";
+import { client } from "@/sanity/lib/client";
+import { projectsQuery } from "@/sanity/lib/queries";
+import type { Project } from "@/sanity/lib/types";
 
-export default function HomePage() {
+export const revalidate = 60;
+
+export default async function HomePage() {
+  const projects = await client.fetch<Project[]>(projectsQuery) ?? [];
+
   return (
     <main>
       <Hero />
@@ -18,7 +25,7 @@ export default function HomePage() {
             tradeoffs, results.
           </p>
 
-          <WorkGrid />
+          <WorkGrid projects={projects} />
         </Container>
       </section>
 
