@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { SiteNav } from "@/components/site/nav";
+import { SiteNav } from "@/components/site";
 import { Geist, Geist_Mono } from "next/font/google";
 import { client } from "@/sanity/lib/client";
 import { cvQuery, siteSettingsQuery } from "@/sanity/lib/queries";

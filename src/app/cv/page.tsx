@@ -1,5 +1,4 @@
-import { CVSection, ExperienceCard, CVLayout, CVCard } from "@/components/site/cv";
-import { CVHero } from "@/components/site/cv-hero";
+import { CVSection, ExperienceCard, CVLayout, CVCard, CVHero } from "@/components/site";
 import { client } from "@/sanity/lib/client";
 import { cvQuery } from "@/sanity/lib/queries";
 import type { CV } from "@/sanity/lib/types";

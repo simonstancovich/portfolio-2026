@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { getProject } from "@/lib/get-project";
+import { getProjectBySlug } from "@/sanity/lib/projects";
 
 export const runtime = "edge";
 export const size = { width: 1200, height: 630 };
@@ -21,7 +21,7 @@ export default async function OpenGraphImage({
     params: Promise<{ slug: string }>;
 }) {
     const { slug } = await params;
-    const project = getProject(slug);
+    const project = await getProjectBySlug(slug);
 
     const title = project?.title ?? "Case study";
     const tagline = project?.tagline ?? "Product-grade build";

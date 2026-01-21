@@ -1,4 +1,4 @@
-import { Container } from "@/components/site/container";
+import { Container } from "@/components/site";
 import { client } from "@/sanity/lib/client";
 import { cvQuery, siteSettingsQuery } from "@/sanity/lib/queries";
 import type { CV, SiteSettings } from "@/sanity/lib/types";
@@ -10,7 +10,7 @@ export default async function ContactPage() {
     client.fetch<CV | null>(cvQuery),
     client.fetch<SiteSettings | null>(siteSettingsQuery),
   ]);
-  
+
   return (
     <main className="py-12 md:py-16">
       <Container>

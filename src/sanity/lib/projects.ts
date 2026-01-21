@@ -4,6 +4,7 @@ import {
   featuredProjectsQuery,
   projectBySlugQuery,
   projectSlugsQuery,
+  adjacentProjectsQuery,
 } from './queries'
 import type { Project } from './types'
 
@@ -34,4 +35,11 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
  */
 export async function getProjectSlugs(): Promise<{ slug: string }[]> {
   return await client.fetch<{ slug: string }[]>(projectSlugsQuery)
+}
+
+/**
+ * Get adjacent projects for navigation
+ */
+export async function getAdjacentProjects(): Promise<{ slug: string; title: string }[]> {
+  return await client.fetch<{ slug: string; title: string }[]>(adjacentProjectsQuery)
 }

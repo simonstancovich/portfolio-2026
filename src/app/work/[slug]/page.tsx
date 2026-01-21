@@ -1,22 +1,22 @@
 import { notFound } from "next/navigation";
-import { client } from "@/sanity/lib/client";
-import { adjacentProjectsQuery, projectBySlugQuery, projectSlugsQuery } from "@/sanity/lib/queries";
-import type { Project } from "@/sanity/lib/types";
-
-import { CasePortableText } from "@/components/site/portable-text";
-import { CaseMedia } from "@/components/site/case-media";
-import { SectionNav } from "@/components/site/section-nav";
-
 import {
+  getProjectBySlug,
+  getAdjacentProjects,
+  getProjectSlugs,
+} from "@/sanity/lib/projects";
+import {
+  CasePortableText,
+  CaseMedia,
+  SectionNav,
   CaseStudyLayout,
   Section,
   Card,
   BulletList,
   DecisionBlock,
-} from "@/components/site/case-study";
-import { CaseNavSanity } from "@/components/site/case-nav-sanity";
-import { CaseMediaGallery } from "@/components/site/case-media-gallery";
-import { Reveal } from "@/components/site/reveal";
+  CaseNavSanity,
+  CaseMediaGallery,
+  Reveal,
+} from "@/components/site";
 
 export default async function WorkSlugPage({
   params,
@@ -25,11 +25,9 @@ export default async function WorkSlugPage({
 }) {
   const { slug } = await params;
 
-  const project = await client.fetch<Project | null>(projectBySlugQuery, { slug });
+  const project = await getProjectBySlug(slug);
   if (!project) return notFound();
-  const navItems = await client.fetch<{ slug: string; title: string }[]>(
-    adjacentProjectsQuery
-  );
+  const navItems = await getAdjacentProjects();
 
   const cs = project.caseStudy;
 
@@ -226,6 +224,6 @@ export default async function WorkSlugPage({
 }
 
 export async function generateStaticParams() {
-  const slugs = await client.fetch<{ slug: string }[]>(projectSlugsQuery);
-  return slugs.map((s: { slug: string }) => ({ slug: s.slug }));
+  const slugs = await getProjectSlugs();
+  return slugs.map((s) => ({ slug: s.slug }));
 }

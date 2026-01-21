@@ -1,18 +1,39 @@
-import { Container } from "@/components/site/container";
-import { Hero } from "@/components/site/hero";
-import { ProofStrip } from "@/components/site/proof-strip";
-import { WorkGrid } from "@/components/site/work-grid";
+import { Container, Hero, ProofStrip, WorkGrid } from "@/components/site";
 import { client } from "@/sanity/lib/client";
-import { projectsQuery, siteSettingsQuery } from "@/sanity/lib/queries";
+import { getProjects } from "@/sanity/lib/projects";
+import { siteSettingsQuery } from "@/sanity/lib/queries";
 import type { Project, SiteSettings } from "@/sanity/lib/types";
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [projects, siteSettings] = await Promise.all([
-    client.fetch<Project[]>(projectsQuery) ?? [],
+  let projects: Project[] = [];
+  let siteSettings: SiteSettings | null = null;
+
+  const results = await Promise.allSettled([
+    getProjects(),
     client.fetch<SiteSettings | null>(siteSettingsQuery),
   ]);
+
+  // Handle projects result
+  if (results[0].status === 'fulfilled') {
+    projects = results[0].value ?? [];
+  } else {
+    const message = results[0].reason instanceof Error
+      ? results[0].reason.message
+      : 'Unknown error';
+    console.error("Error fetching projects:", message, results[0].reason);
+  }
+
+  // Handle site settings result
+  if (results[1].status === 'fulfilled') {
+    siteSettings = results[1].value;
+  } else {
+    const message = results[1].reason instanceof Error
+      ? results[1].reason.message
+      : 'Unknown error';
+    console.error("Error fetching site settings:", message, results[1].reason);
+  }
 
   return (
     <main>
@@ -39,8 +60,8 @@ export default async function HomePage() {
         <section className="py-12 md:py-16">
           <Container>
             <div className="grid gap-4 md:grid-cols-3">
-              {siteSettings.pillars.map((pillar, i) => (
-                <Pillar key={i} title={pillar.title} body={pillar.body} />
+              {siteSettings.pillars.map((pillar) => (
+                <Pillar key={pillar.title} title={pillar.title} body={pillar.body} />
               ))}
             </div>
           </Container>
