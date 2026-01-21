@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteSettings = await client.fetch<SiteSettings | null>(siteSettingsQuery);
-  
+
   return {
     title: siteSettings?.siteTitle || "Simon Stancovich — Full-stack Developer",
     description: siteSettings?.siteDescription || "Product-grade web apps: scalable systems, crisp UX, modern UI. React, TypeScript, Node.",

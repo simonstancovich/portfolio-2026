@@ -7,7 +7,6 @@ import type { CV } from "@/sanity/lib/types";
 
 const navItems = [
   { href: "/work", label: "Work" },
-  { href: "/about", label: "About" },
   { href: "/cv", label: "CV" },
   { href: "/contact", label: "Contact" },
 ];
