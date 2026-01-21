@@ -88,7 +88,10 @@ export const projectType = defineType({
               preview: {
                 select: { title: "caption", media: "image" },
                 prepare({ title, media }: { title?: string; media?: { _type: string; asset?: { _ref: string } } }) {
-                  return { title: title || "Media item", media: media as any };
+                  return { 
+                    title: title || "Media item", 
+                    media: media as { _type: string; asset?: { _ref: string } } | undefined
+                  };
                 },
               },
             },
