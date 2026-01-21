@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import type { PreviewValue } from "sanity";
 
 export const projectType = defineType({
   name: "project",
@@ -87,10 +88,10 @@ export const projectType = defineType({
               ],
               preview: {
                 select: { title: "caption", media: "image" },
-                prepare({ title, media }: { title?: string; media?: { _type: string; asset?: { _ref: string } } }) {
+                prepare({ title, media }): PreviewValue {
                   return { 
                     title: title || "Media item", 
-                    media: media as { _type: string; asset?: { _ref: string } } | undefined
+                    media: media as PreviewValue["media"]
                   };
                 },
               },
