@@ -4,9 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { projectsQuery } from "@/sanity/lib/queries";
+import { projectsSearchQuery } from "@/sanity/lib/queries";
 import { clientWithCdn } from "@/sanity/lib/client";
-import type { Project } from "@/sanity/lib/types";
 
 
 type Item = {
@@ -24,23 +23,33 @@ export function CommandK() {
     const [open, setOpen] = useState(false);
     const [q, setQ] = useState("");
     const [activeIndex, setActiveIndex] = useState(0);
-    const [projects, setProjects] = useState<Project[]>([]);
+    const [projects, setProjects] = useState<Item[]>([]);
 
     // Fetch projects on mount
     useEffect(() => {
-        clientWithCdn.fetch<Project[]>(projectsQuery).then(setProjects);
+        clientWithCdn
+            .fetch<Array<{ slug: string; title: string; tagline?: string; tags?: string[] }>>(
+                projectsSearchQuery
+            )
+            .then((data) => {
+                if (data) {
+                    setProjects(
+                        data.map((p) => ({
+                            slug: p.slug,
+                            title: p.title,
+                            tagline: p.tagline ?? "",
+                            tags: p.tags ?? [],
+                        }))
+                    );
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching projects for search:", error);
+                setProjects([]);
+            });
     }, []);
 
-    const items: Item[] = useMemo(
-        () =>
-            projects.map((p) => ({
-                slug: p.slug,
-                title: p.title,
-                tagline: p.tagline ?? "",
-                tags: p.tags ?? [],
-            })),
-        [projects]
-    );
+    const items: Item[] = useMemo(() => projects, [projects]);
 
     const filtered = useMemo(() => {
         const query = q.trim().toLowerCase();

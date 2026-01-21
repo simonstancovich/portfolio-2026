@@ -80,6 +80,15 @@ export const adjacentProjectsQuery = groq`
   }
 `;
 
+// Simplified query for search/command-k (only fields needed for search)
+export const projectsSearchQuery = groq`*[_type == "project"] | order(_createdAt desc) {
+  _id,
+  "slug": slug.current,
+  title,
+  tagline,
+  tags
+}`;
+
 // Get CV/profile data
 export const cvQuery = groq`*[_type == "cv"][0] {
   _id,
