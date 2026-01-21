@@ -110,3 +110,56 @@ export const cvQuery = groq`*[_type == "cv"][0] {
   },
   leadership
 }`;
+
+// Get site settings
+export const siteSettingsQuery = groq`*[_type == "siteSettings"][0] {
+  _id,
+  _type,
+  siteTitle,
+  siteDescription,
+  footerText,
+  hero {
+    locationBadge,
+    headline,
+    highlightedText,
+    subheadline,
+    portraitImage {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions
+        }
+      },
+      alt
+    },
+    kpis[] {
+      label,
+      value
+    }
+  },
+  proofStrip[] {
+    title,
+    value,
+    note
+  },
+  workSection {
+    heading,
+    description
+  },
+  pillars[] {
+    title,
+    body
+  },
+  contactPage {
+    description,
+    emailSection {
+      description,
+      tip
+    },
+    linksSection {
+      description
+    },
+    availability
+  }
+}`;

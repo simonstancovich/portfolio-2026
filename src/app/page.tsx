@@ -3,50 +3,49 @@ import { Hero } from "@/components/site/hero";
 import { ProofStrip } from "@/components/site/proof-strip";
 import { WorkGrid } from "@/components/site/work-grid";
 import { client } from "@/sanity/lib/client";
-import { projectsQuery } from "@/sanity/lib/queries";
-import type { Project } from "@/sanity/lib/types";
+import { projectsQuery, siteSettingsQuery } from "@/sanity/lib/queries";
+import type { Project, SiteSettings } from "@/sanity/lib/types";
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const projects = await client.fetch<Project[]>(projectsQuery) ?? [];
+  const [projects, siteSettings] = await Promise.all([
+    client.fetch<Project[]>(projectsQuery) ?? [],
+    client.fetch<SiteSettings | null>(siteSettingsQuery),
+  ]);
 
   return (
     <main>
-      <Hero />
-      <ProofStrip />
+      <Hero hero={siteSettings?.hero} />
+      <ProofStrip items={siteSettings?.proofStrip} />
       <section className="py-12 md:py-16">
         <Container>
-          <h2 className="text-xl font-semibold tracking-tight text-white md:text-2xl">
-            Work that shows taste and execution
-          </h2>
-          <p className="mt-2 max-w-2xl text-sm text-white/65 md:text-base">
-            Recruiter-friendly case studies: problem, approach, architecture,
-            tradeoffs, results.
-          </p>
+          {siteSettings?.workSection?.heading && (
+            <h2 className="text-xl font-semibold tracking-tight text-white md:text-2xl">
+              {siteSettings.workSection.heading}
+            </h2>
+          )}
+          {siteSettings?.workSection?.description && (
+            <p className="mt-2 max-w-2xl text-sm text-white/65 md:text-base">
+              {siteSettings.workSection.description}
+            </p>
+          )}
 
           <WorkGrid projects={projects} />
         </Container>
       </section>
 
-      <section className="py-12 md:py-16">
-        <Container>
-          <div className="grid gap-4 md:grid-cols-3">
-            <Pillar
-              title="Good UI is engineering"
-              body="Consistent components, clean states, predictable flows, and sharp copy."
-            />
-            <Pillar
-              title="Systems you can scale"
-              body="Type-safe boundaries, maintainable architecture, and pragmatic tradeoffs."
-            />
-            <Pillar
-              title="Fast, accessible, professional"
-              body="Performance + keyboard support + clear hierarchy. Feels expensive."
-            />
-          </div>
-        </Container>
-      </section>
+      {siteSettings?.pillars && siteSettings.pillars.length > 0 && (
+        <section className="py-12 md:py-16">
+          <Container>
+            <div className="grid gap-4 md:grid-cols-3">
+              {siteSettings.pillars.map((pillar, i) => (
+                <Pillar key={i} title={pillar.title} body={pillar.body} />
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
     </main>
   );
 }

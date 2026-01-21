@@ -4,8 +4,10 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/site/container";
+import type { Hero } from "@/sanity/lib/types";
+import { urlFor } from "@/sanity/lib/image";
 
-export function Hero() {
+export function Hero({ hero }: { hero?: Hero }) {
   return (
     <section className="relative overflow-hidden">
       {/* ambient background */}
@@ -23,25 +25,41 @@ export function Hero() {
             transition={{ duration: 0.5 }}
             className="max-w-2xl"
           >
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs text-white/70 ring-1 ring-white/10">
-              Stockholm • Full-stack • React / TypeScript / Node
-            </div>
+            {hero?.locationBadge && (
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs text-white/70 ring-1 ring-white/10">
+                {hero.locationBadge}
+              </div>
+            )}
 
-            <h1 className="mt-6 text-4xl font-semibold tracking-tight text-white md:text-6xl">
-              I build{" "}
-              <span className="relative">
-                <span className="relative z-10 bg-gradient-to-r from-[rgb(var(--accent))] to-[rgb(var(--accent-2))] bg-clip-text text-transparent">
-                  high-taste
-                </span>
-                <span className="absolute -bottom-2 left-0 right-0 h-[10px] rounded-full bg-gradient-to-r from-[rgb(var(--accent))]/35 to-[rgb(var(--accent-2))]/35 blur-sm" />
-              </span>{" "}
-              product UX with developer-grade execution.
-            </h1>
+            {hero?.headline && (
+              <h1 className="mt-6 text-4xl font-semibold tracking-tight text-white md:text-6xl">
+                {hero.highlightedText && hero.headline.includes(hero.highlightedText) ? (
+                  <>
+                    {hero.headline.split(hero.highlightedText).map((part, i, arr) => (
+                      <span key={i}>
+                        {part}
+                        {i < arr.length - 1 && (
+                          <span className="relative">
+                            <span className="relative z-10 bg-gradient-to-r from-[rgb(var(--accent))] to-[rgb(var(--accent-2))] bg-clip-text text-transparent">
+                              {hero.highlightedText}
+                            </span>
+                            <span className="absolute -bottom-2 left-0 right-0 h-[10px] rounded-full bg-gradient-to-r from-[rgb(var(--accent))]/35 to-[rgb(var(--accent-2))]/35 blur-sm" />
+                          </span>
+                        )}
+                      </span>
+                    ))}
+                  </>
+                ) : (
+                  hero.headline
+                )}
+              </h1>
+            )}
 
-            <p className="mt-6 text-base leading-relaxed text-white/70 md:text-lg">
-              Clean interfaces, fast systems, and decisions you can defend.
-              Recruiter-friendly case studies with architecture, tradeoffs, and results.
-            </p>
+            {hero?.subheadline && (
+              <p className="mt-6 text-base leading-relaxed text-white/70 md:text-lg">
+                {hero.subheadline}
+              </p>
+            )}
 
             <div className="mt-9 flex flex-wrap gap-3">
               <Link
@@ -58,37 +76,40 @@ export function Hero() {
               </Link>
             </div>
 
-            <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
-              <Kpi label="Experience" value="5+ yrs" />
-              <Kpi label="Focus" value="Full-stack" />
-              <Kpi label="Taste" value="Product UI" />
-              <Kpi label="Strength" value="Systems + UX" />
-            </div>
+            {hero?.kpis && hero.kpis.length > 0 && (
+              <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
+                {hero.kpis.map((kpi, i) => (
+                  <Kpi key={i} label={kpi.label} value={kpi.value} />
+                ))}
+              </div>
+            )}
           </motion.div>
 
           {/* RIGHT: portrait */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="relative hidden md:flex justify-center"
-          >
-            <div className="relative">
-              {/* soft glow */}
-              <div className="absolute inset-0 rounded-[28px] bg-gradient-to-br from-[rgb(var(--accent))]/25 to-[rgb(var(--accent-2))]/20 blur-2xl" />
+          {hero?.portraitImage && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="relative hidden md:flex justify-center"
+            >
+              <div className="relative">
+                {/* soft glow */}
+                <div className="absolute inset-0 rounded-[28px] bg-gradient-to-br from-[rgb(var(--accent))]/25 to-[rgb(var(--accent-2))]/20 blur-2xl" />
 
-              <div className="glass relative rounded-[28px] p-2">
-                <Image
-                  src="/me.png"
-                  alt="Simon Stancovich"
-                  width={360}
-                  height={360}
-                  className="rounded-[22px]"
-                  priority
-                />
+                <div className="glass relative rounded-[28px] p-2">
+                  <Image
+                    src={urlFor(hero.portraitImage).width(360).height(360).quality(90).url()}
+                    alt="Simon Stancovich"
+                    width={360}
+                    height={360}
+                    className="rounded-[22px]"
+                    priority
+                  />
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          )}
         </div>
       </Container>
     </section>

@@ -116,3 +116,62 @@ export interface CV extends SanityDocument {
   skills?: CVSkills
   leadership?: string
 }
+
+// Site Settings types
+export interface HeroKPI {
+  label: string
+  value: string
+}
+
+export interface Hero {
+  locationBadge?: string
+  headline?: string
+  highlightedText?: string
+  subheadline?: string
+  portraitImage?: SanityImageSource
+  kpis?: HeroKPI[]
+}
+
+export interface ProofStripItem {
+  title: string
+  value: string
+  note: string
+}
+
+export interface WorkSection {
+  heading?: string
+  description?: string
+}
+
+export interface Pillar {
+  title: string
+  body: string
+}
+
+export interface ContactEmailSection {
+  description?: string
+  tip?: string
+}
+
+export interface ContactLinksSection {
+  description?: string
+}
+
+export interface ContactPage {
+  description?: string
+  emailSection?: ContactEmailSection
+  linksSection?: ContactLinksSection
+  availability?: string
+}
+
+export interface SiteSettings extends SanityDocument {
+  _type: 'siteSettings'
+  siteTitle: string
+  siteDescription: string
+  footerText: string
+  hero?: Hero
+  proofStrip?: ProofStripItem[]
+  workSection?: WorkSection
+  pillars?: Pillar[]
+  contactPage?: ContactPage
+}
