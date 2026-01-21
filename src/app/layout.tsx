@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { SiteNav } from "@/components/site/nav";
 import { Geist, Geist_Mono } from "next/font/google";
+import { client } from "@/sanity/lib/client";
+import { cvQuery } from "@/sanity/lib/queries";
+import type { CV } from "@/sanity/lib/types";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -23,14 +26,16 @@ export const metadata: Metadata = {
 
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const cv = await client.fetch<CV | null>(cvQuery);
+
   return (
     <html lang="en" className={`${geist.variable} ${geistMono.variable}`}>
       <body className="font-sans">
         <div className="bg-noise" />
-        <SiteNav />
+        <SiteNav cv={cv} />
         {children}
         <footer className="border-t border-white/10 py-10">
           <div className="mx-auto w-full max-w-6xl px-5 text-sm text-white/60 md:px-8">

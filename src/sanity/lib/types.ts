@@ -107,6 +107,9 @@ export interface CV extends SanityDocument {
   focus?: string
   techStack?: string
   cvPdfUrl?: string
+  email?: string
+  github?: string
+  linkedin?: string
   description?: string
   knownFor?: string[]
   experiences?: CVExperience[]

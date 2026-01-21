@@ -49,6 +49,24 @@ export const cvType = defineType({
       description: "URL to the PDF version of your CV",
     }),
     defineField({
+      name: "email",
+      type: "string",
+      title: "Email",
+      description: "Contact email address",
+    }),
+    defineField({
+      name: "github",
+      type: "url",
+      title: "GitHub URL",
+      description: "GitHub profile URL",
+    }),
+    defineField({
+      name: "linkedin",
+      type: "url",
+      title: "LinkedIn URL",
+      description: "LinkedIn profile URL (optional)",
+    }),
+    defineField({
       name: "description",
       type: "text",
       description: "Full description paragraph",

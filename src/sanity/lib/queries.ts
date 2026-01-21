@@ -92,6 +92,9 @@ export const cvQuery = groq`*[_type == "cv"][0] {
   focus,
   techStack,
   cvPdfUrl,
+  email,
+  github,
+  linkedin,
   description,
   knownFor,
   experiences[] {

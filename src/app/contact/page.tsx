@@ -1,6 +1,12 @@
 import { Container } from "@/components/site/container";
+import { client } from "@/sanity/lib/client";
+import { cvQuery } from "@/sanity/lib/queries";
+import type { CV } from "@/sanity/lib/types";
 
-export default function ContactPage() {
+export const revalidate = 60;
+
+export default async function ContactPage() {
+  const cv = await client.fetch<CV | null>(cvQuery);
   return (
     <main className="py-12 md:py-16">
       <Container>
@@ -19,12 +25,14 @@ export default function ContactPage() {
               Fastest way. I usually reply within 24–48 hours.
             </p>
 
-            <a
-              href="mailto:youremail@domain.com?subject=Project%20inquiry"
-              className="mt-5 inline-flex rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-white/90"
-            >
-              Email me
-            </a>
+            {cv?.email && (
+              <a
+                href={`mailto:${cv.email}?subject=Project%20inquiry`}
+                className="mt-5 inline-flex rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-white/90"
+              >
+                Email me
+              </a>
+            )}
 
             <div className="mt-5 text-xs text-white/55">
               Tip: include timeline, stack, and a link to the job/project.
@@ -38,22 +46,26 @@ export default function ContactPage() {
             </p>
 
             <div className="mt-5 flex flex-wrap gap-3">
-              <a
-                href="https://github.com/"
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-2xl bg-white/10 px-5 py-3 text-sm font-semibold text-white hover:bg-white/15 ring-1 ring-white/10"
-              >
-                GitHub
-              </a>
-              <a
-                href="https://www.linkedin.com/"
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-2xl bg-white/10 px-5 py-3 text-sm font-semibold text-white hover:bg-white/15 ring-1 ring-white/10"
-              >
-                LinkedIn
-              </a>
+              {cv?.github && (
+                <a
+                  href={cv.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-2xl bg-white/10 px-5 py-3 text-sm font-semibold text-white hover:bg-white/15 ring-1 ring-white/10"
+                >
+                  GitHub
+                </a>
+              )}
+              {cv?.linkedin && (
+                <a
+                  href={cv.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-2xl bg-white/10 px-5 py-3 text-sm font-semibold text-white hover:bg-white/15 ring-1 ring-white/10"
+                >
+                  LinkedIn
+                </a>
+              )}
             </div>
 
             <div className="mt-6 rounded-2xl bg-black/30 p-4 ring-1 ring-white/10">

@@ -3,7 +3,7 @@ import { Container } from "@/components/site/container";
 import { cn } from "@/lib/utils";
 import { CommandK } from "./command-k";
 import { Mail } from "lucide-react";
-
+import type { CV } from "@/sanity/lib/types";
 
 const navItems = [
   { href: "/work", label: "Work" },
@@ -12,7 +12,7 @@ const navItems = [
   { href: "/contact", label: "Contact" },
 ];
 
-export function SiteNav() {
+export function SiteNav({ cv }: { cv: CV | null }) {
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[rgb(var(--bg))]/75 backdrop-blur">
       <Container className="flex h-14 items-center justify-between">
@@ -43,33 +43,37 @@ export function SiteNav() {
 
         <div className="flex items-center gap-1.5">
           <CommandK />
-          <a
-            href="mailto:youremail@domain.com"
-            aria-label="Email Simon"
-            className="
+          {cv?.email && (
+            <a
+              href={`mailto:${cv.email}`}
+              aria-label="Email Simon"
+              className="
     inline-flex items-center justify-center
     rounded-xl ring-1 ring-white/10 transition
     bg-white/10 text-white hover:bg-white/15
     h-9 w-9 md:h-auto md:w-auto
     md:px-3 md:py-2
   "
-          >
-            {/* icon on mobile */}
-            <Mail className="h-4 w-4 md:hidden" />
+            >
+              {/* icon on mobile */}
+              <Mail className="h-4 w-4 md:hidden" />
 
-            {/* text on desktop */}
-            <span className="hidden md:inline text-sm font-medium">
-              Email
-            </span>
-          </a>
-          <a
-            href="https://github.com/"
-            target="_blank"
-            rel="noreferrer"
-            className="hidden rounded-md px-3 py-2 text-sm text-white/70 hover:bg-white/5 hover:text-white md:inline-flex"
-          >
-            GitHub
-          </a>
+              {/* text on desktop */}
+              <span className="hidden md:inline text-sm font-medium">
+                Email
+              </span>
+            </a>
+          )}
+          {cv?.github && (
+            <a
+              href={cv.github}
+              target="_blank"
+              rel="noreferrer"
+              className="hidden rounded-md px-3 py-2 text-sm text-white/70 hover:bg-white/5 hover:text-white md:inline-flex"
+            >
+              GitHub
+            </a>
+          )}
         </div>
       </Container>
     </header>
