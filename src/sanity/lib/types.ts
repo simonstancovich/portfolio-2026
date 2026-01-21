@@ -82,3 +82,34 @@ export interface Project extends SanityDocument {
   caseStudy: ProjectCaseStudy
   mediaGallery?: { image: SanityImageSource; caption?: string }[]
 }
+
+// CV/Profile types
+export interface CVExperience {
+  title: string
+  meta?: string
+  description: string
+  stack?: string
+}
+
+export interface CVSkills {
+  frontend?: string
+  backend?: string
+  productInfra?: string
+}
+
+export interface CV extends SanityDocument {
+  _type: 'cv'
+  name: string
+  role: string
+  positioningStatement?: string
+  location?: string
+  experienceYears?: string
+  focus?: string
+  techStack?: string
+  cvPdfUrl?: string
+  description?: string
+  knownFor?: string[]
+  experiences?: CVExperience[]
+  skills?: CVSkills
+  leadership?: string
+}

@@ -1,43 +1,47 @@
 import Link from "next/link";
 import { CVCard } from "@/components/site/cv";
+import type { CV } from "@/sanity/lib/types";
 
-export function CVHero() {
+export function CVHero({ cv }: { cv: CV }) {
     return (
         <CVCard className="space-y-6">
             {/* Name + role */}
             <div className="space-y-2">
                 <h1 className="text-4xl font-semibold tracking-tight text-white md:text-5xl">
-                    Simon Stancovich
+                    {cv.name}
                 </h1>
                 <p className="text-lg text-white/70">
-                    Senior Full-Stack Engineer
+                    {cv.role}
                 </p>
             </div>
 
             {/* Positioning statement */}
-            <p className="max-w-2xl text-base leading-relaxed text-white/80 md:text-lg">
-                I design and build production-grade web and mobile products with strong
-                product judgment, clean UI/UX, and scalable backend systems — often
-                owning projects end-to-end from idea to launch.
-            </p>
+            {cv.positioningStatement && (
+                <p className="max-w-2xl text-base leading-relaxed text-white/80 md:text-lg">
+                    {cv.positioningStatement}
+                </p>
+            )}
 
             {/* Facts row */}
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/60">
-                <span>Stockholm, Sweden</span>
-                <span>8+ years experience</span>
-                <span>Web & Mobile</span>
-                <span>React · Next.js · Node · NestJS</span>
+                {cv.location && <span>{cv.location}</span>}
+                {cv.experienceYears && <span>{cv.experienceYears}</span>}
+                {cv.focus && <span>{cv.focus}</span>}
+                {cv.techStack && <span>{cv.techStack}</span>}
             </div>
 
             {/* Actions */}
             <div className="flex flex-wrap gap-3 pt-2">
-                <a
-                    href="/Simon-Stancovich-CV.pdf"
-                    target="_blank"
-                    className="inline-flex items-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-white/90"
-                >
-                    Download CV (PDF)
-                </a>
+                {cv.cvPdfUrl && (
+                    <a
+                        href={cv.cvPdfUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-white/90"
+                    >
+                        Download CV (PDF)
+                    </a>
+                )}
 
                 <Link
                     href="/work"

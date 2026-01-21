@@ -79,3 +79,31 @@ export const adjacentProjectsQuery = groq`
     title
   }
 `;
+
+// Get CV/profile data
+export const cvQuery = groq`*[_type == "cv"][0] {
+  _id,
+  _type,
+  name,
+  role,
+  positioningStatement,
+  location,
+  experienceYears,
+  focus,
+  techStack,
+  cvPdfUrl,
+  description,
+  knownFor,
+  experiences[] {
+    title,
+    meta,
+    description,
+    stack
+  },
+  skills {
+    frontend,
+    backend,
+    productInfra
+  },
+  leadership
+}`;
