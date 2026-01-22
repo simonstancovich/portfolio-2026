@@ -15,7 +15,6 @@ function matches(p: Project, filter: Filter) {
 export function WorkGrid({ projects }: { projects: Project[] }) {
   const [filter, setFilter] = useState<Filter>("All");
 
-  // Extract all unique tags from all projects
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
     (projects ?? []).forEach((p) => {
@@ -24,7 +23,6 @@ export function WorkGrid({ projects }: { projects: Project[] }) {
     return Array.from(tagSet).sort();
   }, [projects]);
 
-  // Create filter options: "All" + all unique tags
   const filters = useMemo(() => ["All", ...allTags], [allTags]);
 
   const items = useMemo(

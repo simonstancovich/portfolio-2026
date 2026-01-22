@@ -15,7 +15,6 @@ export default async function HomePage() {
     client.fetch<SiteSettings | null>(siteSettingsQuery),
   ]);
 
-  // Handle projects result
   if (results[0].status === 'fulfilled') {
     projects = results[0].value ?? [];
   } else {
@@ -25,7 +24,6 @@ export default async function HomePage() {
     console.error("Error fetching projects:", message, results[0].reason);
   }
 
-  // Handle site settings result
   if (results[1].status === 'fulfilled') {
     siteSettings = results[1].value;
   } else {
