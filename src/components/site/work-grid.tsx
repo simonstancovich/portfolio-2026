@@ -4,16 +4,28 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { Project } from "@/sanity/lib/types";
 
-const filters = ["All", "Full-stack", "Frontend", "Mobile", "AI/Product"] as const;
-type Filter = (typeof filters)[number];
+type Filter = string;
 
-function matches(p: Project, f: Filter) {
-  if (f === "All") return true;
-  return p.tags?.includes(f) ?? false;
+function matches(p: Project, filter: Filter) {
+  if (filter === "All") return true;
+  const tagList = p.tags ?? [];
+  return tagList.includes(filter);
 }
 
 export function WorkGrid({ projects }: { projects: Project[] }) {
   const [filter, setFilter] = useState<Filter>("All");
+
+  // Extract all unique tags from all projects
+  const allTags = useMemo(() => {
+    const tagSet = new Set<string>();
+    (projects ?? []).forEach((p) => {
+      (p.tags ?? []).forEach((tag) => tagSet.add(tag));
+    });
+    return Array.from(tagSet).sort();
+  }, [projects]);
+
+  // Create filter options: "All" + all unique tags
+  const filters = useMemo(() => ["All", ...allTags], [allTags]);
 
   const items = useMemo(
     () => (projects ?? []).filter((p) => matches(p, filter)),
