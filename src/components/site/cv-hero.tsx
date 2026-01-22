@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { CVCard } from "@/components/site/cv";
+import { CVDownloadButton } from "@/components/site/cv-download-button";
 import type { CV } from "@/sanity/lib/types";
 
 export function CVHero({ cv }: { cv: CV }) {
@@ -33,13 +36,12 @@ export function CVHero({ cv }: { cv: CV }) {
             {/* Actions */}
             <div className="flex flex-wrap gap-3 pt-2">
                 {cv.cvPdf?.asset?.url && (
-                    <a
-                        href={cv.cvPdf.asset.url}
-                        download={cv.cvPdf.asset.originalFilename || "CV_Simon_Stancovich.pdf"}
+                    <CVDownloadButton
+                        url={cv.cvPdf.asset.url}
+                        filename={cv.cvPdf.asset.originalFilename || "CV_Simon_Stancovich.pdf"}
+                        label="Download CV (PDF)"
                         className="inline-flex items-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-white/90"
-                    >
-                        Download CV (PDF)
-                    </a>
+                    />
                 )}
 
                 <Link

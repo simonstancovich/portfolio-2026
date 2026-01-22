@@ -1,4 +1,4 @@
-import { CVSection, ExperienceCard, CVLayout, CVCard, CVHero } from "@/components/site";
+import { CVSection, ExperienceCard, CVLayout, CVCard, CVHero, CVDownloadButton } from "@/components/site";
 import { client } from "@/sanity/lib/client";
 import { cvQuery } from "@/sanity/lib/queries";
 import type { CV } from "@/sanity/lib/types";
@@ -41,13 +41,12 @@ export default async function CVPage() {
 
                 {cv.cvPdf?.asset?.url && (
                     <div className="flex flex-wrap gap-2">
-                        <a
-                            href={cv.cvPdf.asset.url}
-                            download={cv.cvPdf.asset.originalFilename || "CV_Simon_Stancovich.pdf"}
+                        <CVDownloadButton
+                            url={cv.cvPdf.asset.url}
+                            filename={cv.cvPdf.asset.originalFilename || "CV_Simon_Stancovich.pdf"}
+                            label="Download full CV (PDF)"
                             className="inline-flex items-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-white/90"
-                        >
-                            Download full CV (PDF)
-                        </a>
+                        />
                     </div>
                 )}
             </header>

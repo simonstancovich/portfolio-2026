@@ -23,6 +23,7 @@ export {
 
 // CV components
 export { CVHero } from './cv-hero';
+export { CVDownloadButton } from './cv-download-button';
 export {
   CVLayout,
   CVSection,
