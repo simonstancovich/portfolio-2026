@@ -100,7 +100,15 @@ export const cvQuery = groq`*[_type == "cv"][0] {
   experienceYears,
   focus,
   techStack,
-  cvPdfUrl,
+  cvPdf {
+    asset->{
+      _id,
+      url,
+      originalFilename,
+      size,
+      mimeType
+    }
+  },
   email,
   github,
   linkedin,

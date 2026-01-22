@@ -106,7 +106,15 @@ export interface CV extends SanityDocument {
   experienceYears?: string
   focus?: string
   techStack?: string
-  cvPdfUrl?: string
+  cvPdf?: {
+    asset?: {
+      _id: string
+      url: string
+      originalFilename?: string
+      size?: number
+      mimeType?: string
+    }
+  }
   email?: string
   github?: string
   linkedin?: string

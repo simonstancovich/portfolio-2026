@@ -39,12 +39,11 @@ export default async function CVPage() {
                     </p>
                 )}
 
-                {cv.cvPdfUrl && (
+                {cv.cvPdf?.asset?.url && (
                     <div className="flex flex-wrap gap-2">
                         <a
-                            href={cv.cvPdfUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            href={cv.cvPdf.asset.url}
+                            download={cv.cvPdf.asset.originalFilename || "CV_Simon_Stancovich.pdf"}
                             className="inline-flex items-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-white/90"
                         >
                             Download full CV (PDF)

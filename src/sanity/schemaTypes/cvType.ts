@@ -43,10 +43,13 @@ export const cvType = defineType({
       description: "e.g., 'React · Next.js · Node · NestJS'",
     }),
     defineField({
-      name: "cvPdfUrl",
-      type: "url",
-      title: "CV PDF URL",
-      description: "URL to the PDF version of your CV",
+      name: "cvPdf",
+      type: "file",
+      title: "CV PDF",
+      description: "Upload your CV as a PDF file (will be available for direct download)",
+      options: {
+        accept: ".pdf",
+      },
     }),
     defineField({
       name: "email",
